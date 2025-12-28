@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import FullscreenLink from '../components/FullscreenLink';
+import Fullscreen from '../components/FullscreenTool';
+
 import Header from '../components/Header';
 import AdSlot from '../components/AdSlot';
 
@@ -168,6 +170,8 @@ const Home = () => {
     <HomeContainer>
       <MainContent>
         <Header />
+            <Fullscreen />
+
         <AdSlot
           slot="3936769799" // home_top_banner
           style={{ display: 'block', width: '100%', minHeight: '70px', marginTop: '1.5rem' }}

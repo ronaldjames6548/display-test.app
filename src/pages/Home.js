@@ -170,7 +170,6 @@ const Home = () => {
     <HomeContainer>
       <MainContent>
         <Header />
-            <Fullscreen />
 
         <AdSlot
           slot="3936769799" // home_top_banner

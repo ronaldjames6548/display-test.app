@@ -167,9 +167,9 @@ const Header = () => {
         />
         <Title>White Screen - Online Full Screen Test Tool</Title>
       </TitleContainer>
-      <Description>
+      <Subtitle>
         Discover WhiteScrn free, browser-based professional display Testing tools to thoroughly test your monitor or TV. Adjust and verify brightness, contrast, sharpness, color accuracy, dead/stuck pixels, backlight bleed, motion clarity, response time and refresh rate – no downloads or installation required. Perfect for gamers, designers and anyone ensuring optimal display performance on any device.
-      </Description>
+      </Subtitle>
     </HeaderContainer>
   );
 };

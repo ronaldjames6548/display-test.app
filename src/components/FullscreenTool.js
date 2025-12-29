@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useRef, useEffect } from 'react';
 
 export default function FullscreenTool() {
@@ -26,7 +24,7 @@ export default function FullscreenTool() {
 
   const [width, setWidth] = useState(1920);
   const [height, setHeight] = useState(1080);
-  const [selectedResolution, setSelectedResolution] = useState('1080p'); // Default to 1080p
+  const [selectedResolution, setSelectedResolution] = useState('1080p');
 
   const resolutions = {
     '480p': { w: 640, h: 480 },
@@ -108,14 +106,6 @@ export default function FullscreenTool() {
     setHeight(newHeight);
   };
 
-  const isLightColor = (hex) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    return brightness > 128;
-  };
-
   return (
     <>
       {/* Fullscreen Overlay Div */}
@@ -141,13 +131,14 @@ export default function FullscreenTool() {
             style={{ backgroundColor: currentHex }}
             onClick={handleFullscreen}
           >
-            <div class="text-center text-gray-400">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-monitor h-8 w-8 mx-auto mb-2" aria-hidden="true">
-				<rect width="20" height="14" x="2" y="3" rx="2"></rect>
-				<line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line>
-				</svg>
-				<p class="text-sm font-medium">Click for Fullscreen</p>
-			</div>
+            <div className="text-center text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 mx-auto mb-2" aria-hidden="true">
+                <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+                <line x1="8" x2="16" y1="21" y2="21"></line>
+                <line x1="12" x2="12" y1="17" y2="21"></line>
+              </svg>
+              <p className="text-sm font-medium">Click for Fullscreen</p>
+            </div>
           </div>
           <div className="flex items-center justify-center space-x-2 text-sm mt-4 mb-4">
             <span className="text-gray-500">Current:</span>
@@ -159,80 +150,75 @@ export default function FullscreenTool() {
             <span className="text-gray-500">{currentHex}</span>
           </div>
           <div className="mt-8">
+            {/* Desktop Layout */}
             <div className="hidden sm:block">
               <div className="flex items-end gap-1 sm:gap-2">
                 <div className="flex-1">
-                  <label className="label">
-                    <span className="label-text text-xs text-base-content/70">Resolution</span>
-                  </label>
+                  <label className="block text-xs text-gray-600 mb-1">Resolution</label>
                   <select
-                    className="select select-bordered w-full h-9 min-h-9 border border-gray-300 rounded"
+                    className="w-full h-9 px-2 border border-gray-300 rounded"
                     onChange={handleResolutionChange}
                     value={selectedResolution}
                   >
                     <optgroup label="Standard">
                       <option value="480p">480p (640×480)</option>
                       <option value="720p">720p (1280×720)</option>
-                      <option value="1080p" selected="">1080p (1920×1080)</option>
+                      <option value="1080p">1080p (1920×1080)</option>
                       <option value="2K">2K (2560×1440)</option>
                       <option value="4K">4K (3840×2160)</option>
                       <option value="8K">8K (7680×4320)</option>
                     </optgroup>
                     <optgroup label="iPhone 16">
-                      <option value="iPhone 16 (6.1&quot;)">iPhone 16 (6.1&quot;) (1179×2556)</option>
-                      <option value="iPhone 16 Plus (6.7&quot;)">iPhone 16 Plus (6.7&quot;) (1290×2796)</option>
-                      <option value="iPhone 16 Pro (6.3&quot;)">iPhone 16 Pro (6.3&quot;) (1206×2622)</option>
-                      <option value="iPhone 16 Pro Max (6.9&quot;)">iPhone 16 Pro Max (6.9&quot;) (1320×2868)</option>
+                      <option value='iPhone 16 (6.1")'>iPhone 16 (6.1") (1179×2556)</option>
+                      <option value='iPhone 16 Plus (6.7")'>iPhone 16 Plus (6.7") (1290×2796)</option>
+                      <option value='iPhone 16 Pro (6.3")'>iPhone 16 Pro (6.3") (1206×2622)</option>
+                      <option value='iPhone 16 Pro Max (6.9")'>iPhone 16 Pro Max (6.9") (1320×2868)</option>
                     </optgroup>
                     <optgroup label="iPhone 15">
-                      <option value="iPhone 15 (6.1&quot;)">iPhone 15 (6.1&quot;) (1179×2556)</option>
-                      <option value="iPhone 15 Plus (6.7&quot;)">iPhone 15 Plus (6.7&quot;) (1290×2796)</option>
-                      <option value="iPhone 15 Pro (6.1&quot;)">iPhone 15 Pro (6.1&quot;) (1179×2556)</option>
-                      <option value="iPhone 15 Pro Max (6.7&quot;)">iPhone 15 Pro Max (6.7&quot;) (1290×2796)</option>
+                      <option value='iPhone 15 (6.1")'>iPhone 15 (6.1") (1179×2556)</option>
+                      <option value='iPhone 15 Plus (6.7")'>iPhone 15 Plus (6.7") (1290×2796)</option>
+                      <option value='iPhone 15 Pro (6.1")'>iPhone 15 Pro (6.1") (1179×2556)</option>
+                      <option value='iPhone 15 Pro Max (6.7")'>iPhone 15 Pro Max (6.7") (1290×2796)</option>
                     </optgroup>
                     <optgroup label="iPhone 14">
-                      <option value="iPhone 14 (6.1&quot;)">iPhone 14 (6.1&quot;) (1170×2532)</option>
-                      <option value="iPhone 14 Plus (6.7&quot;)">iPhone 14 Plus (6.7&quot;) (1284×2778)</option>
-                      <option value="iPhone 14 Pro (6.1&quot;)">iPhone 14 Pro (6.1&quot;) (1179×2556)</option>
-                      <option value="iPhone 14 Pro Max (6.7&quot;)">iPhone 14 Pro Max (6.7&quot;) (1290×2796)</option>
+                      <option value='iPhone 14 (6.1")'>iPhone 14 (6.1") (1170×2532)</option>
+                      <option value='iPhone 14 Plus (6.7")'>iPhone 14 Plus (6.7") (1284×2778)</option>
+                      <option value='iPhone 14 Pro (6.1")'>iPhone 14 Pro (6.1") (1179×2556)</option>
+                      <option value='iPhone 14 Pro Max (6.7")'>iPhone 14 Pro Max (6.7") (1290×2796)</option>
                     </optgroup>
                     <optgroup label="iPad">
-                      <option value="iPad (10.9&quot;)">iPad (10.9&quot;) (1640×2360)</option>
-                      <option value="iPad Pro 11&quot;">iPad Pro 11&quot; (1668×2388)</option>
-                      <option value="iPad Pro 12.9&quot;">iPad Pro 12.9&quot; (2048×2732)</option>
+                      <option value='iPad (10.9")'>iPad (10.9") (1640×2360)</option>
+                      <option value='iPad Pro 11"'>iPad Pro 11" (1668×2388)</option>
+                      <option value='iPad Pro 12.9"'>iPad Pro 12.9" (2048×2732)</option>
                     </optgroup>
                   </select>
                 </div>
                 <div className="flex items-end gap-1 sm:gap-2">
                   <div className="w-16 sm:w-20">
-                    <label className="label">
-                      <span className="label-text text-xs text-base-content/70">Width</span>
-                    </label>
+                    <label className="block text-xs text-gray-600 mb-1">Width</label>
                     <input
                       type="number"
                       value={width}
                       onChange={(e) => setWidth(parseInt(e.target.value) || 0)}
-                      className="input input-bordered w-full h-9 min-h-9 text-sm text-center border border-gray-300 rounded"
+                      className="w-full h-9 px-2 border border-gray-300 rounded text-sm text-center"
                       min="1"
                       max="7680"
                     />
                   </div>
                   <button
-                    className="btn btn-outline h-9 min-h-9 px-2 border border-gray-300 rounded"
+                    className="h-9 px-2 border border-gray-300 rounded hover:bg-gray-100"
                     title="Swap width and height"
                     onClick={handleSwapDimensions}
                   >
                     ⇄
                   </button>
                   <div className="w-16 sm:w-20">
-                    <label className="label">
-                      <span className="label-text text-xs text-base-content/70">Height</span>
-                    </label>
+                    <label className="block text-xs text-gray-600 mb-1">Height</label>
                     <input
                       type="number"
                       value={height}
                       onChange={(e) => setHeight(parseInt(e.target.value) || 0)}
-                      className="input input-bordered w-full h-9 min-h-9 text-sm text-center border border-gray-300 rounded"
+                      className="w-full h-9 px-2 border border-gray-300 rounded text-sm text-center"
                       min="1"
                       max="4320"
                     />
@@ -240,7 +226,7 @@ export default function FullscreenTool() {
                 </div>
                 <button
                   onClick={handleDownload}
-                  className="btn h-9 min-h-9 px-2 sm:px-3 mt-2 sm:mt-0 rounded bg-black text-white hover:bg-gray-800"
+                  className="h-9 px-3 rounded bg-black text-white hover:bg-gray-800"
                 >
                   Download
                 </button>
@@ -249,77 +235,71 @@ export default function FullscreenTool() {
             {/* Mobile Layout */}
             <div className="sm:hidden flex flex-col gap-2">
               <div>
-                <label className="label">
-                  <span className="label-text text-xs text-base-content/70">Resolution</span>
-                </label>
+                <label className="block text-xs text-gray-600 mb-1">Resolution</label>
                 <select
-                  className="select select-bordered w-full h-9 min-h-9 border border-gray-300 rounded"
+                  className="w-full h-9 px-2 border border-gray-300 rounded"
                   onChange={handleResolutionChange}
                   value={selectedResolution}
                 >
                   <optgroup label="Standard">
                     <option value="480p">480p (640×480)</option>
                     <option value="720p">720p (1280×720)</option>
-                    <option value="1080p" selected="">1080p (1920×1080)</option>
+                    <option value="1080p">1080p (1920×1080)</option>
                     <option value="2K">2K (2560×1440)</option>
                     <option value="4K">4K (3840×2160)</option>
                     <option value="8K">8K (7680×4320)</option>
                   </optgroup>
                   <optgroup label="iPhone 16">
-                    <option value="iPhone 16 (6.1&quot;)">iPhone 16 (6.1&quot;) (1179×2556)</option>
-                    <option value="iPhone 16 Plus (6.7&quot;)">iPhone 16 Plus (6.7&quot;) (1290×2796)</option>
-                    <option value="iPhone 16 Pro (6.3&quot;)">iPhone 16 Pro (6.3&quot;) (1206×2622)</option>
-                    <option value="iPhone 16 Pro Max (6.9&quot;)">iPhone 16 Pro Max (6.9&quot;) (1320×2868)</option>
+                    <option value='iPhone 16 (6.1")'>iPhone 16 (6.1") (1179×2556)</option>
+                    <option value='iPhone 16 Plus (6.7")'>iPhone 16 Plus (6.7") (1290×2796)</option>
+                    <option value='iPhone 16 Pro (6.3")'>iPhone 16 Pro (6.3") (1206×2622)</option>
+                    <option value='iPhone 16 Pro Max (6.9")'>iPhone 16 Pro Max (6.9") (1320×2868)</option>
                   </optgroup>
                   <optgroup label="iPhone 15">
-                    <option value="iPhone 15 (6.1&quot;)">iPhone 15 (6.1&quot;) (1179×2556)</option>
-                    <option value="iPhone 15 Plus (6.7&quot;)">iPhone 15 Plus (6.7&quot;) (1290×2796)</option>
-                    <option value="iPhone 15 Pro (6.1&quot;)">iPhone 15 Pro (6.1&quot;) (1179×2556)</option>
-                    <option value="iPhone 15 Pro Max (6.7&quot;)">iPhone 15 Pro Max (6.7&quot;) (1290×2796)</option>
+                    <option value='iPhone 15 (6.1")'>iPhone 15 (6.1") (1179×2556)</option>
+                    <option value='iPhone 15 Plus (6.7")'>iPhone 15 Plus (6.7") (1290×2796)</option>
+                    <option value='iPhone 15 Pro (6.1")'>iPhone 15 Pro (6.1") (1179×2556)</option>
+                    <option value='iPhone 15 Pro Max (6.7")'>iPhone 15 Pro Max (6.7") (1290×2796)</option>
                   </optgroup>
                   <optgroup label="iPhone 14">
-                    <option value="iPhone 14 (6.1&quot;)">iPhone 14 (6.1&quot;) (1170×2532)</option>
-                    <option value="iPhone 14 Plus (6.7&quot;)">iPhone 14 Plus (6.7&quot;) (1284×2778)</option>
-                    <option value="iPhone 14 Pro (6.1&quot;)">iPhone 14 Pro (6.1&quot;) (1179×2556)</option>
-                    <option value="iPhone 14 Pro Max (6.7&quot;)">iPhone 14 Pro Max (6.7&quot;) (1290×2796)</option>
+                    <option value='iPhone 14 (6.1")'>iPhone 14 (6.1") (1170×2532)</option>
+                    <option value='iPhone 14 Plus (6.7")'>iPhone 14 Plus (6.7") (1284×2778)</option>
+                    <option value='iPhone 14 Pro (6.1")'>iPhone 14 Pro (6.1") (1179×2556)</option>
+                    <option value='iPhone 14 Pro Max (6.7")'>iPhone 14 Pro Max (6.7") (1290×2796)</option>
                   </optgroup>
                   <optgroup label="iPad">
-                    <option value="iPad (10.9&quot;)">iPad (10.9&quot;) (1640×2360)</option>
-                    <option value="iPad Pro 11&quot;">iPad Pro 11&quot; (1668×2388)</option>
-                    <option value="iPad Pro 12.9&quot;">iPad Pro 12.9&quot; (2048×2732)</option>
+                    <option value='iPad (10.9")'>iPad (10.9") (1640×2360)</option>
+                    <option value='iPad Pro 11"'>iPad Pro 11" (1668×2388)</option>
+                    <option value='iPad Pro 12.9"'>iPad Pro 12.9" (2048×2732)</option>
                   </optgroup>
                 </select>
               </div>
               <div className="flex items-end gap-1">
                 <div className="w-1/2">
-                  <label className="label">
-                    <span className="label-text text-xs text-base-content/70">Width</span>
-                  </label>
+                  <label className="block text-xs text-gray-600 mb-1">Width</label>
                   <input
                     type="number"
                     value={width}
                     onChange={(e) => setWidth(parseInt(e.target.value) || 0)}
-                    className="input input-bordered w-full h-9 min-h-9 text-sm text-center border border-gray-300 rounded"
+                    className="w-full h-9 px-2 border border-gray-300 rounded text-sm text-center"
                     min="1"
                     max="7680"
                   />
                 </div>
                 <button
-                  className="btn btn-outline h-9 min-h-9 px-2 border border-gray-300 rounded"
+                  className="h-9 px-2 border border-gray-300 rounded hover:bg-gray-100"
                   title="Swap width and height"
                   onClick={handleSwapDimensions}
                 >
                   ⇄
                 </button>
                 <div className="w-1/2">
-                  <label className="label">
-                    <span className="label-text text-xs text-base-content/70">Height</span>
-                  </label>
+                  <label className="block text-xs text-gray-600 mb-1">Height</label>
                   <input
                     type="number"
                     value={height}
                     onChange={(e) => setHeight(parseInt(e.target.value) || 0)}
-                    className="input input-bordered w-full h-9 min-h-9 text-sm text-center border border-gray-300 rounded"
+                    className="w-full h-9 px-2 border border-gray-300 rounded text-sm text-center"
                     min="1"
                     max="4320"
                   />
@@ -327,7 +307,7 @@ export default function FullscreenTool() {
               </div>
               <button
                 onClick={handleDownload}
-                className="btn w-full h-9 min-h-9 px-2 sm:px-3 mt-2 bg-black text-white hover:bg-gray-800"
+                className="w-full h-9 px-3 bg-black text-white hover:bg-gray-800 rounded"
               >
                 Download
               </button>

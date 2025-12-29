@@ -80,7 +80,7 @@ const Logo = styled.img`
 `;
 
 const Title = styled.h1`
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   background: linear-gradient(to right, var(--primary), #60a5fa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -7,7 +7,6 @@ const HeaderContainer = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 4rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
 

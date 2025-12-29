@@ -98,7 +98,6 @@ const Title = styled.h1`
 const Subtitle = styled.p`
   font-size: 1.25rem;
   color: var(--secondary);
-  max-width: 600px;
   margin: 0 auto;
   text-align: center;
 

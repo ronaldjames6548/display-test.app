@@ -269,14 +269,7 @@ const Home = () => {
 
         {/* Fullscreen Color Tool Section */}
         <FullscreenToolSection>
-          <SectionHeader>
-            <h2>Fullscreen Color Tool</h2>
-            <p>
-              Test your display with solid colors in fullscreen mode. Perfect for dead pixel detection, 
-              uniformity testing, and color accuracy evaluation. Download custom resolution color screens 
-              for various devices.
-            </p>
-          </SectionHeader>
+          
           <FullscreenTool />
         </FullscreenToolSection>
 

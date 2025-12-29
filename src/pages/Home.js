@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import FullscreenLink from '../components/FullscreenLink';
-import Fullscreen from '../components/FullscreenTool';
+import FullscreenTool from '../components/FullscreenTool';
 
 import Header from '../components/Header';
 import AdSlot from '../components/AdSlot';
@@ -33,6 +33,97 @@ const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+`;
+
+const FullscreenToolSection = styled.section`
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
+`;
+
+const SectionHeader = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h2 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: var(--secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.5rem;
+
+    h2 {
+      font-size: 1.75rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 1.25rem;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+`;
+
+const TestsHeader = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+
+  h2 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: var(--secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.5rem;
+
+    h2 {
+      font-size: 1.75rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
 `;
 
 const TestGrid = styled.div`
@@ -175,6 +266,33 @@ const Home = () => {
           slot="3936769799" // home_top_banner
           style={{ display: 'block', width: '100%', minHeight: '70px', marginTop: '1.5rem' }}
         />
+
+        {/* Fullscreen Color Tool Section */}
+        <FullscreenToolSection>
+          <SectionHeader>
+            <h2>Fullscreen Color Tool</h2>
+            <p>
+              Test your display with solid colors in fullscreen mode. Perfect for dead pixel detection, 
+              uniformity testing, and color accuracy evaluation. Download custom resolution color screens 
+              for various devices.
+            </p>
+          </SectionHeader>
+          <FullscreenTool />
+        </FullscreenToolSection>
+
+        <AdSlot
+          slot="7385060214" // home_below_fullscreen_tool (renamed for clarity)
+          style={{ display: 'block', width: '100%', minHeight: '70px', marginTop: '1rem' }}
+        />
+
+        {/* Display Tests Section */}
+        <TestsHeader>
+          <h2>Display Tests</h2>
+          <p>
+            Comprehensive suite of tests to evaluate and diagnose various aspects of your display performance.
+          </p>
+        </TestsHeader>
+
         <TestGrid>
           {tests.map((test) => (
             <StyledFullscreenLink
@@ -185,8 +303,9 @@ const Home = () => {
             />
           ))}
         </TestGrid>
+
         <AdSlot
-          slot="7385060214" // home_below_grid
+          slot="7385060215" // home_bottom_banner (you may need to create this slot or reuse existing)
           style={{ display: 'block', width: '100%', minHeight: '70px', marginTop: '2rem' }}
         />
       </MainContent>

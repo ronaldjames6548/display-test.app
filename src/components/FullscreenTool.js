@@ -58,8 +58,7 @@ const PreviewBox = styled.div`
 
 const PreviewContent = styled.div`
   text-align: center;
-  color: rgba(255, 255, 255, 0.4);
-
+  color: rgba(153, 161, 175, 0.4);
   svg {
     width: 2rem;
     height: 2rem;

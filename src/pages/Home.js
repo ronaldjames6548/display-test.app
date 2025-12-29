@@ -268,11 +268,8 @@ const Home = () => {
         />
 
         {/* Fullscreen Color Tool Section */}
-        <FullscreenToolSection>
-          
-          <FullscreenTool />
-        </FullscreenToolSection>
-
+       
+<FullscreenTool />
         <AdSlot
           slot="7385060214" // home_below_fullscreen_tool (renamed for clarity)
           style={{ display: 'block', width: '100%', minHeight: '70px', marginTop: '1rem' }}

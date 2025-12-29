@@ -40,7 +40,7 @@ const PreviewBox = styled.div`
   height: 14rem;
   display: flex;
   align-items: center;
-  justify-center;
+  justify-content: center;
   text-align: center;
   cursor: pointer;
   border: 2px solid rgba(255, 255, 255, 0.2);
@@ -57,17 +57,24 @@ const PreviewBox = styled.div`
 `;
 
 const PreviewContent = styled.div`
-  text-align: center;
-  color: rgba(153, 161, 175, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: rgba(153, 161, 175, 0.6);
+  pointer-events: none; /* Prevents blocking clicks on the preview box */
+
   svg {
-    width: 2rem;
-    height: 2rem;
-    margin: 0 auto 0.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    stroke: currentColor;
   }
 
   p {
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 500;
+    margin: 0;
   }
 `;
 
@@ -464,9 +471,9 @@ export default function FullscreenTool() {
           <PreviewBox style={{ backgroundColor: currentHex }} onClick={handleFullscreen}>
             <PreviewContent>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="20" height="14" x="2" y="3" rx="2"></rect>
-                <line x1="8" x2="16" y1="21" y2="21"></line>
-                <line x1="12" x2="12" y1="17" y2="21"></line>
+                <rect width="20" height="14" x="2" y="3" rx="2" />
+                <line x1="8" x2="16" y1="21" y2="21" />
+                <line x1="12" x2="12" y1="17" y2="21" />
               </svg>
               <p>Click for Fullscreen</p>
             </PreviewContent>

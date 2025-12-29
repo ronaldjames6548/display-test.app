@@ -1,4 +1,352 @@
 import { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+
+const ToolContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
+
+const Section = styled.div`
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+  }
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+
+  @media (max-width: 768px) {
+    font-size: 1.35rem;
+    margin-bottom: 1.25rem;
+  }
+`;
+
+const PreviewBox = styled.div`
+  width: 100%;
+  height: 14rem;
+  display: flex;
+  align-items: center;
+  justify-center;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    border-color: var(--primary);
+  }
+
+  @media (max-width: 768px) {
+    height: 12rem;
+  }
+`;
+
+const PreviewContent = styled.div`
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 auto 0.5rem;
+  }
+
+  p {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+`;
+
+const CurrentColorInfo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  span {
+    color: var(--secondary);
+  }
+
+  .color-name {
+    font-weight: 500;
+    color: var(--text-light);
+  }
+`;
+
+const ColorSwatch = styled.div`
+  width: 1rem;
+  height: 1rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+`;
+
+const ControlsContainer = styled.div`
+  margin-top: 2rem;
+
+  @media (max-width: 640px) {
+    margin-top: 1.5rem;
+  }
+`;
+
+const DesktopControls = styled.div`
+  display: none;
+
+  @media (min-width: 640px) {
+    display: block;
+  }
+`;
+
+const MobileControls = styled.div`
+  display: block;
+
+  @media (min-width: 640px) {
+    display: none;
+  }
+`;
+
+const ControlRow = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
+const ControlGroup = styled.div`
+  flex: 1;
+`;
+
+const DimensionControls = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+`;
+
+const Label = styled.label`
+  display: block;
+  font-size: 0.75rem;
+  color: var(--secondary);
+  margin-bottom: 0.25rem;
+`;
+
+const Select = styled.select`
+  width: 100%;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: var(--text-light);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  option {
+    background: #1a1a1a;
+    color: var(--text-light);
+  }
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: var(--text-light);
+  font-size: 0.875rem;
+  text-align: center;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+`;
+
+const DimensionInput = styled(Input)`
+  width: 5rem;
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+`;
+
+const SwapButton = styled.button`
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+`;
+
+const Button = styled.button`
+  height: 2.25rem;
+  padding: 0 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+    border-color: var(--primary);
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+`;
+
+const ColorGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 640px) {
+    gap: 0.75rem;
+  }
+`;
+
+const ColorOption = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const ColorBox = styled.div`
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: border-color 0.3s ease;
+
+  ${ColorOption}:hover & {
+    border-color: var(--primary);
+  }
+
+  @media (max-width: 640px) {
+    width: 3rem;
+    height: 3rem;
+  }
+`;
+
+const ColorPicker = styled.input`
+  width: 3.5rem;
+  height: 3.5rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+
+  @media (max-width: 640px) {
+    width: 3rem;
+    height: 3rem;
+  }
+`;
+
+const ColorLabel = styled.p`
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--secondary);
+
+  @media (max-width: 640px) {
+    font-size: 0.8rem;
+  }
+`;
+
+const Description = styled.p`
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--secondary);
+  line-height: 1.6;
+`;
+
+const LaunchButton = styled.button`
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: var(--primary);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+`;
+
+const FullscreenOverlay = styled.div`
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+`;
 
 export default function FullscreenTool() {
   const colors = [
@@ -108,58 +456,36 @@ export default function FullscreenTool() {
 
   return (
     <>
-      {/* Fullscreen Overlay Div */}
-      <div
-        ref={fullscreenRef}
-        style={{
-          display: 'none',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          zIndex: 9999,
-        }}
-      ></div>
+      <FullscreenOverlay ref={fullscreenRef} />
 
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 p-4">
+      <ToolContainer>
         {/* Live Preview Section */}
-        <div className="bg-white p-6 rounded-lg shadow-md flex-1">
-          <h2 className="text-2xl font-semibold mb-4">Live Preview</h2>
-          <div
-            className="w-full h-56 flex items-center justify-center text-center cursor-pointer border border-gray-300 rounded"
-            style={{ backgroundColor: currentHex }}
-            onClick={handleFullscreen}
-          >
-            <div className="text-center text-gray-400">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 mx-auto mb-2" aria-hidden="true">
+        <Section>
+          <SectionTitle>Live Preview</SectionTitle>
+          <PreviewBox style={{ backgroundColor: currentHex }} onClick={handleFullscreen}>
+            <PreviewContent>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect width="20" height="14" x="2" y="3" rx="2"></rect>
                 <line x1="8" x2="16" y1="21" y2="21"></line>
                 <line x1="12" x2="12" y1="17" y2="21"></line>
               </svg>
-              <p className="text-sm font-medium">Click for Fullscreen</p>
-            </div>
-          </div>
-          <div className="flex items-center justify-center space-x-2 text-sm mt-4 mb-4">
-            <span className="text-gray-500">Current:</span>
-            <div
-              className="w-4 h-4 rounded border border-gray-300"
-              style={{ backgroundColor: currentHex }}
-            ></div>
-            <span className="font-medium text-gray-900">{currentName}</span>
-            <span className="text-gray-500">{currentHex}</span>
-          </div>
-          <div className="mt-8">
-            {/* Desktop Layout */}
-            <div className="hidden sm:block">
-              <div className="flex items-end gap-1 sm:gap-2">
-                <div className="flex-1">
-                  <label className="block text-xs text-gray-600 mb-1">Resolution</label>
-                  <select
-                    className="w-full h-9 px-2 border border-gray-300 rounded"
-                    onChange={handleResolutionChange}
-                    value={selectedResolution}
-                  >
+              <p>Click for Fullscreen</p>
+            </PreviewContent>
+          </PreviewBox>
+
+          <CurrentColorInfo>
+            <span>Current:</span>
+            <ColorSwatch style={{ backgroundColor: currentHex }} />
+            <span className="color-name">{currentName}</span>
+            <span>{currentHex}</span>
+          </CurrentColorInfo>
+
+          <ControlsContainer>
+            <DesktopControls>
+              <ControlRow>
+                <ControlGroup>
+                  <Label>Resolution</Label>
+                  <Select onChange={handleResolutionChange} value={selectedResolution}>
                     <optgroup label="Standard">
                       <option value="480p">480p (640×480)</option>
                       <option value="720p">720p (1280×720)</option>
@@ -191,56 +517,41 @@ export default function FullscreenTool() {
                       <option value='iPad Pro 11"'>iPad Pro 11" (1668×2388)</option>
                       <option value='iPad Pro 12.9"'>iPad Pro 12.9" (2048×2732)</option>
                     </optgroup>
-                  </select>
-                </div>
-                <div className="flex items-end gap-1 sm:gap-2">
-                  <div className="w-16 sm:w-20">
-                    <label className="block text-xs text-gray-600 mb-1">Width</label>
-                    <input
+                  </Select>
+                </ControlGroup>
+                <DimensionControls>
+                  <div>
+                    <Label>Width</Label>
+                    <DimensionInput
                       type="number"
                       value={width}
                       onChange={(e) => setWidth(parseInt(e.target.value) || 0)}
-                      className="w-full h-9 px-2 border border-gray-300 rounded text-sm text-center"
                       min="1"
                       max="7680"
                     />
                   </div>
-                  <button
-                    className="h-9 px-2 border border-gray-300 rounded hover:bg-gray-100"
-                    title="Swap width and height"
-                    onClick={handleSwapDimensions}
-                  >
+                  <SwapButton onClick={handleSwapDimensions} title="Swap width and height">
                     ⇄
-                  </button>
-                  <div className="w-16 sm:w-20">
-                    <label className="block text-xs text-gray-600 mb-1">Height</label>
-                    <input
+                  </SwapButton>
+                  <div>
+                    <Label>Height</Label>
+                    <DimensionInput
                       type="number"
                       value={height}
                       onChange={(e) => setHeight(parseInt(e.target.value) || 0)}
-                      className="w-full h-9 px-2 border border-gray-300 rounded text-sm text-center"
                       min="1"
                       max="4320"
                     />
                   </div>
-                </div>
-                <button
-                  onClick={handleDownload}
-                  className="h-9 px-3 rounded bg-black text-white hover:bg-gray-800"
-                >
-                  Download
-                </button>
-              </div>
-            </div>
-            {/* Mobile Layout */}
-            <div className="sm:hidden flex flex-col gap-2">
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">Resolution</label>
-                <select
-                  className="w-full h-9 px-2 border border-gray-300 rounded"
-                  onChange={handleResolutionChange}
-                  value={selectedResolution}
-                >
+                </DimensionControls>
+                <Button onClick={handleDownload}>Download</Button>
+              </ControlRow>
+            </DesktopControls>
+
+            <MobileControls>
+              <div style={{ marginBottom: '0.5rem' }}>
+                <Label>Resolution</Label>
+                <Select onChange={handleResolutionChange} value={selectedResolution}>
                   <optgroup label="Standard">
                     <option value="480p">480p (640×480)</option>
                     <option value="720p">720p (1280×720)</option>
@@ -272,90 +583,74 @@ export default function FullscreenTool() {
                     <option value='iPad Pro 11"'>iPad Pro 11" (1668×2388)</option>
                     <option value='iPad Pro 12.9"'>iPad Pro 12.9" (2048×2732)</option>
                   </optgroup>
-                </select>
+                </Select>
               </div>
-              <div className="flex items-end gap-1">
-                <div className="w-1/2">
-                  <label className="block text-xs text-gray-600 mb-1">Width</label>
-                  <input
+              <ControlRow>
+                <div style={{ flex: 1 }}>
+                  <Label>Width</Label>
+                  <Input
                     type="number"
                     value={width}
                     onChange={(e) => setWidth(parseInt(e.target.value) || 0)}
-                    className="w-full h-9 px-2 border border-gray-300 rounded text-sm text-center"
                     min="1"
                     max="7680"
                   />
                 </div>
-                <button
-                  className="h-9 px-2 border border-gray-300 rounded hover:bg-gray-100"
-                  title="Swap width and height"
-                  onClick={handleSwapDimensions}
-                >
+                <SwapButton onClick={handleSwapDimensions} title="Swap width and height" style={{ marginTop: '1.5rem' }}>
                   ⇄
-                </button>
-                <div className="w-1/2">
-                  <label className="block text-xs text-gray-600 mb-1">Height</label>
-                  <input
+                </SwapButton>
+                <div style={{ flex: 1 }}>
+                  <Label>Height</Label>
+                  <Input
                     type="number"
                     value={height}
                     onChange={(e) => setHeight(parseInt(e.target.value) || 0)}
-                    className="w-full h-9 px-2 border border-gray-300 rounded text-sm text-center"
                     min="1"
                     max="4320"
                   />
                 </div>
-              </div>
-              <button
-                onClick={handleDownload}
-                className="w-full h-9 px-3 bg-black text-white hover:bg-gray-800 rounded"
-              >
-                Download
-              </button>
-            </div>
-          </div>
-        </div>
+              </ControlRow>
+              <Button onClick={handleDownload}>Download</Button>
+            </MobileControls>
+          </ControlsContainer>
+        </Section>
 
         {/* Choose Your Color Section */}
-        <div className="bg-white p-6 rounded-lg shadow-md flex-1">
-          <h2 className="text-2xl font-semibold mb-4">Choose Your Color</h2>
-          <div className="grid grid-cols-4 gap-4">
+        <Section>
+          <SectionTitle>Choose Your Color</SectionTitle>
+          <ColorGrid>
             {colors.map((color) => (
-              <div
+              <ColorOption
                 key={color.name}
-                className="flex flex-col items-center cursor-pointer"
                 onClick={() => {
                   setUseCustom(false);
                   setSelectedColor(color);
                 }}
               >
-                <div className="w-14 h-14 rounded border border-gray-300" style={{ backgroundColor: color.hex }}></div>
-                <p className="mt-1 text-sm">{color.name}</p>
-              </div>
+                <ColorBox style={{ backgroundColor: color.hex }} />
+                <ColorLabel>{color.name}</ColorLabel>
+              </ColorOption>
             ))}
-            <div className="flex flex-col items-center">
-              <input
+            <ColorOption>
+              <ColorPicker
                 type="color"
                 value={customHex}
                 onChange={(e) => {
                   setCustomHex(e.target.value);
                   setUseCustom(true);
                 }}
-                className="w-14 h-14 cursor-pointer"
               />
-              <p className="mt-1 text-sm">Custom</p>
-            </div>
-          </div>
-          <p className="mt-6 text-center text-sm">
+              <ColorLabel>Custom</ColorLabel>
+            </ColorOption>
+          </ColorGrid>
+          <Description>
             Perfect for monitor testing, photography lighting, and presentations.
-          </p>
-          <button
-            onClick={handleFullscreen}
-            className="w-full mt-4 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-          >
+          </Description>
+          <LaunchButton onClick={handleFullscreen}>
             Launch {currentName} Screen
-          </button>
-        </div>
-      </div>
+          </LaunchButton>
+        </Section>
+      </ToolContainer>
     </>
   );
 }
